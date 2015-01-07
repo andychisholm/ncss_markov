@@ -20,8 +20,6 @@ for i in range(context_size-1, numwords-1):
     # construct a tuple of context words based on the selected context_sizez
     context = tuple(words[x] for x in xrange(i-context_size+1, i+1))
 
-    print (context, nextword)
-
     # if we haven't see these words before, we need to add an item to the dictionary
     if context not in d:
         # instead of storing a list, we now store a dictionary of words and counts
