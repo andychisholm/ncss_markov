@@ -4,7 +4,7 @@ import sys
 if len(sys.argv) != 2:
     print "Please run me like:\n\tpython %s file_to_learn_from.txt" % sys.argv[0]
 
-context_size = 3
+context_size = 2
 
 text = open(sys.argv[1], 'rU').read()
 # split the text up into tokens
@@ -15,12 +15,12 @@ numwords = len(words)
 
 # loop over words, adding each word and the next word
 for i in range(context_size-1, numwords-1):
-    # if we haven't seen the word before, add a list with the next word it to the dictionary.
-    lastword = words[i-1]
-    word = words[i]
     nextword = words[i+1]
 
-    context = tuple(words[x] for x in xrange(i-context_size-1, i, -1))
+    # construct a tuple of context words based on the selected context_sizez
+    context = tuple(words[x] for x in xrange(i-context_size+1, i+1))
+
+    print (context, nextword)
 
     # if we haven't see these words before, we need to add an item to the dictionary
     if context not in d:
@@ -37,7 +37,7 @@ for i in range(context_size-1, numwords-1):
       # if we have seen these words before, add the next word to the list that is in the dictionary
 
 # input our starting words
-prompt_words = raw_input("Two word prompt? ").strip().split()
+prompt_words = raw_input("Please supply atleast %i words as a prompt: " % context_size).strip().split()
 
 if len(prompt_words) < context_size:
     print "Need atleast %i words :(!" % context_size
@@ -58,4 +58,4 @@ for i in range(30):
     print nxtwd,
 
     # set the context based on the nextword
-    context = tuple(list(context)[:-1] + [nxtwd])
+    context = tuple(list(context)[1:] + [nxtwd])
